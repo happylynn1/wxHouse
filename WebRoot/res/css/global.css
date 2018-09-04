@@ -1,0 +1,135 @@
+@charset "utf-8";
+/* CSS Document */
+* {margin: 0;outline: 0;padding: 0;box-sizing: border-box;}
+body {background:#fff;font-family: "Microsoft Yahei";font-size:12px;margin: 0;padding: 0;}
+body, form, ul, ol, li, p, h1, h2, h3, h4, h5, h6, dl, dt, dd, table, fieldset, hr, div {
+	margin: 0;padding: 0;
+}
+img {border: 0 none;max-width:100%;}
+ul, ol, li {list-style-type: none;}
+:focus { outline: none; }
+a {outline: medium none;text-decoration: none;}
+a:hover {text-decoration: none; border:none;}
+em,i{font-style: normal;}
+input[type="button"],input[type="submit"],input[type="reset"]{-webkit-appearance: none;}
+table{border-collapse:collapse;}
+*:focus {outline: none;}
+*{-webkit-tap-highlight-color: rgba(0,0,0,0);  -webkit-tap-highlight-color: transparent;}
+
+/* 酌情修改 */
+body {
+	color:#333;
+	font-size:12px;
+}
+
+/* 短引用的内容可取值：''或"" */
+q:before,q:after {content:”;}  
+
+/* 缩写，图片等无边框 */
+fieldset,img,abbr,acronym {
+	border:0 none;
+}
+abbr,acronym {
+	font-variant:normal;
+}
+legend {
+	color:#000;
+}
+
+/* 清除特殊标记的字体和字号 */
+address,caption,cite,code,dfn,em,strong,th,var {
+	font-weight: normal;
+	font-style: normal;
+}
+
+/* 上下标 */
+sup {
+	vertical-align: text-top;
+}
+sub {
+	vertical-align: text-bottom;
+}
+
+/* 设置表格的边框被合并为一个单一的边框, 指定分隔边框模型中单元格边界之间的距离为0*/
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}   
+
+/* 表格标题及内容居左显示 */
+caption,th {
+	text-align: left;
+}
+input,img,select {
+	vertical-align:middle;
+}
+
+/* 清除列表样式 */
+ol,ul,li{
+	list-style: none;
+}  
+
+/* 输入控件字体 */
+input,button,textarea,select,optgroup,option {
+    font-family:inherit;
+    font-size:inherit;
+    font-style:inherit;
+    font-weight:inherit;
+}
+input[type="button"], input[type="submit"], input[type="reset"] {
+	-webkit-appearance: none;
+}
+input,button,textarea,select,optgroup,option:focus{
+	outline: none;
+}
+/* 标题元素样式清除 */ 
+h1,h2,h3,h4,h5,h6 {   
+　　font-weight: normal;   
+　　font-size: 100%;   
+}   
+
+/* 链接样式，颜色可酌情修改 */
+del,ins,a {
+	text-decoration:none;
+}
+a {
+	color:#333;
+}
+a:link {
+	color:#333;
+}
+a:visited {
+	color:#333;
+}
+a:hover,a:active,a:focus {
+	color:#333;
+	text-decoration:none;
+} 
+
+
+/* 鼠标样式 */
+input[type="submit"] {
+	cursor: pointer;
+}
+button {
+	cursor: pointer;
+}
+input::-moz-focus-inner {
+	border: 0;
+	padding: 0;
+}
+*{
+    -webkit-tap-highlight-color: rgba(0,0,0,0);  
+    -webkit-tap-highlight-color: transparent;
+}
+/* 伪类清除浮动 */
+.clearfix:after{
+	content:".";
+	display:block;
+	height:0;
+	clear:both;
+	visibility:hidden;
+}
+.clearfix{
+	zoom:1
+}

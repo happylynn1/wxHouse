@@ -1,0 +1,81 @@
+@charset "utf-8";
+/* CSS Document */
+
+/* ----------------- 房源详情 ----------------- */
+.details{padding:0 1rem;border-top: 10px solid #ddd;border-bottom: 10px solid #ddd;}
+.Listing_h2{
+	height: 2.5rem;
+	margin-bottom: 1rem;
+    line-height: 2.5rem;
+    background: #fff;
+    font-weight: 800;
+    color: #3f3e3e;
+    font-size: 1rem;
+    border-bottom: 1px solid #f0eff5;
+}
+.Core_selling{
+	display: inline-block;
+	margin-bottom: 0.5rem;
+	width:100%;
+}
+.Core_selling dt img {
+    width: 7px;
+    margin-right: 7px;
+}
+.Core_selling em{font-style:normal;}
+.Core_selling h3{
+	font-size: .875rem;
+	color: #333;
+	margin-bottom: 0.7rem;
+	font-weight: normal;
+}
+.Core_selling dl{
+	display: block;
+	margin-bottom: 1rem;
+}
+.Core_selling dt{
+	font-size: .75rem;
+	color: #999;
+	line-height: 1.6rem;
+	margin-bottom: 0.6rem;
+}
+.Core_selling dd{
+	font-size: .725rem;
+	color: #bbb;
+}
+.Core_selling dd a{
+	margin-right: 5%;
+	color: #bbb;
+}
+.Core_selling dd a i{
+	position:relative;
+	top:.1rem;
+	display:inline-block;
+	margin-right:1px;
+	width: .8rem;
+    height: .8rem;
+}
+.Core_selling dd a .delImgBtn{
+	background:url(../images/delNotes.png) center center no-repeat;background-size:.8rem .8rem;
+}
+.Core_selling dd a .upImgBtn{
+	background:url(../images/addNotes.png) center center no-repeat;background-size:.8rem .8rem;
+}
+.Core_selling dd a img{
+	margin-right:1px;
+	width: 1.3rem;
+}
+a.addBjBtn{ position:relative;top:-.1rem;font-size: 0; display: inline-block; width: 1.5rem; height: 1.3rem; background:url(../images/bj_tj.png) center center no-repeat; background-size: 1.3rem; }
+a.editBjBtn{ position:relative;top:-.1rem;font-size: 0; display: inline-block; width: 1.5rem; height: 1.3rem; background:url(../images/editBtn.png) center center no-repeat; background-size: 1.3rem; }
+a.sure2Btn{ position:relative;top:-.1rem;font-size: 0; display: inline-block; width: 1.5rem; height: 1.3rem; background:url(../images/save2Btn.png) center center no-repeat; background-size: 1.3rem; }
+
+.Core_selling dd em{
+	float: right;
+}
+.Core_h3 a{
+	float: right;
+	display: inline-block;
+}
+.Core_h3 a img{
+	width: 1.2rem;
+}

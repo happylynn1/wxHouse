@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shenyingchengxun.house.dao.HouseTagDao">
+	<select id="getHouseTagList" parameterType="String" resultType="java.util.Map">
+		select label_group,label,label_name,isshow islabel from wx_housetag 
+		where
+		<choose>
+			<when test=" type == 'rent'">
+				isrent = '1'
+			</when>
+			<when test=" type == 'sale'">
+				issale = '1'
+			</when>
+			<otherwise>
+				1 = 1
+			</otherwise>
+		</choose>
+		 order by label_num
+	</select>
+	<select id="getLikeTagList" resultType="String">
+		select label_name from `wx_housetag` where `like` = '1' 
+	</select>
+</mapper>

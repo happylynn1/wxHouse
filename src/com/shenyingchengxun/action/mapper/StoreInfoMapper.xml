@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shenyingchengxun.action.dao.StoreInfoDao">
+	<select id="getStoreInfoByStoreId" parameterType="String" resultType="com.shenyingchengxun.action.bean.StoreInfo">
+		select storeid storeId,city,company,store_name storeName,
+		introdu,image_path imagePath,appId,appSecret,accessToken,atReg_time,token 
+		from wx_storeinfo where storeid = #{storeId}  limit 1
+	</select>
+	<update id="upStoreAtByStoreId" parameterType="String">
+		update wx_storeinfo set accessToken = #{accessToken},atReg_time = unix_timestamp(now()) where storeid = #{storeId} 
+	</update>
+	<select id="getWaterMarkByStoreid" parameterType="String" resultType="String">
+	    SELECT watermark FROM wx_storeinfo WHERE storeid = #{storeid}
+	</select>
+</mapper>

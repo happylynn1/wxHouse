@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shenyingchengxun.house.dao.HouseSourceDao">
+	<insert id="addHouseSource" parameterType="com.shenyingchengxun.house.bean.HouseSource">
+		  insert into wx_housesource (entry_time,houseid,agent_openid,commid,tuiguangyu,buildingNo,unitno,doorno,houseno,total,area,ave_price,room,towards,years,floor,total_floor,property_type,
+		  trading_type,info,outdoor,lift,showStatus,showTime,arrears,rent_type,
+		  only,estateLicense,degree,renovate,lastRenovate,labels,perPhone,ispublic,vrno,vr_path,genre,picPath) values 
+		  (now(), #{hs.houseid},#{hs.openid}, #{hs.commid},#{hs.tuiguangyu}, #{hs.buildingno}, #{hs.unitno}, #{hs.doorno}, #{hs.houseno}, #{hs.total}, #{hs.area}, #{hs.ave_price}, #{hs.room}, 
+		  #{hs.towards}, #{hs.years}, #{hs.floor},#{hs.totalFloor}, #{hs.property_type}, #{hs.trading_type}, #{hs.info},#{hs.outdoor},#{hs.lift},#{hs.showStatus},
+		  #{hs.showTime},#{hs.arrears},#{hs.rentType},
+		  #{hs.only},#{hs.estateLicense},#{hs.degree},#{hs.renovate},#{hs.lastRenovate}, #{hs.labels}, #{hs.perPhone}, #{hs.ispublic}, 
+		  #{hs.vrno}, #{hs.vr_path},#{hs.genre},#{hs.picPath})
+	</insert>
+	<insert id="upHouseSourceById" parameterType="com.shenyingchengxun.house.bean.HouseSource">
+		  update wx_housesource set entry_time = now(),commid = #{hs.commid},buildingNo=#{hs.buildingno},unitno=#{hs.unitno},tuiguangyu = #{hs.tuiguangyu},
+		  doorno=#{hs.doorno},houseno=#{hs.houseno},total=#{hs.total},area=#{hs.area},ave_price=#{hs.ave_price},
+		  room= #{hs.room},towards=#{hs.towards},years=#{hs.years}, floor=#{hs.floor},total_floor= #{hs.totalFloor},property_type=#{hs.property_type},info=#{hs.info},
+		  outdoor=#{hs.outdoor},lift=#{hs.lift},showStatus=#{hs.showStatus},showTime=#{hs.showTime},arrears=#{hs.arrears},rent_type=#{hs.rentType},only=#{hs.only},
+		  estateLicense=#{hs.estateLicense},degree=#{hs.degree},renovate=#{hs.renovate},lastRenovate=#{hs.lastRenovate},labels= #{hs.labels},perPhone=#{hs.perPhone}, 
+		  ispublic=#{hs.ispublic}, vrno= #{hs.vrno},vr_path=#{hs.vr_path},genre=#{hs.genre}
+		  where houseid = #{hs.houseid}
+	</insert>
+	
+	<select id="getHouseSourceByHouseid" parameterType="String" resultType="com.shenyingchengxun.house.bean.HouseSource">
+		select wh.centralnotes,wh.centralnotesTime,wh.tuiguangyu,wh.matingnotesTime,wh.matingnotes,wh.entry_time entryTime,wh.total_floor totalFloor,wh.rent_type rentType, wh.houseid,wh.agent_openid openid,wh.commid,wh.buildingNo buildingno,wh.total,wh.ave_price,wh.years,wh.trading_type,wh.info,wh.new isnew,wh.outdoor,wh.lift,wh.showStatus,wh.showTime,wh.arrears,
+		  wh.vrno,wh.vr_path,wh.only,wh.towards,wh.estateLicense,wh.degree,wh.renovate,wh.lastRenovate,wh.labels,wh.property_type,wh.hot ishot,wh.floor,wh.area,wh.room,wh.perPhone,wh.ispublic,wh.genre,wh.unitno,wh.doorno,wh.houseno,wc.comm,wc.address,wc.lng,wc.lat from wx_housesource wh left join wx_comm wc on wh.commid = wc.id  where wh.houseid = #{houseid};
+	</select>
+	<select id="getHouseSourceListByHouseidList" resultType="com.shenyingchengxun.house.bean.HouseSource">
+		select wh.vrno,wh.vr_path,wh.tuiguangyu,wh.entry_time entryTime,wh.total_floor totalFloor,wh.rent_type rentType, wh.houseid,wh.agent_openid openid,wh.commid,wh.buildingNo buildingno,wh.total,wh.ave_price,wh.years,wh.trading_type,wh.info,wh.new isnew,wh.outdoor,wh.lift,wh.showStatus,wh.showTime,wh.arrears,
+		  wh.only,wh.towards,wh.estateLicense,wh.degree,wh.renovate,wh.lastRenovate,wh.labels,wh.property_type,wh.hot ishot,wh.floor,wh.area,wh.room,wc.comm from wx_housesource wh left join wx_comm wc on wh.commid = wc.id  where wh.houseid in
+		<foreach collection="houseidList" index="index" item="item" open="(" separator="," close=")">
+    	      #{item}       
+    	</foreach>
+    	 order by entry_time desc limit #{_st},#{_ed}
+	</select>
+	<select id="getHouseListByType" resultType="com.shenyingchengxun.house.bean.HouseSource">
+		select wh.vrno,wh.vr_path,wh.tuiguangyu,wh.entry_time entryTime,wh.total_floor totalFloor,wh.rent_type rentType, wh.houseid,wh.agent_openid openid,wh.commid,wh.buildingNo buildingno,wh.total,wh.ave_price,wh.years,wh.trading_type,wh.info,wh.new isnew,wh.outdoor,wh.lift,wh.showStatus,wh.showTime,wh.arrears,
+		  wh.only,wh.towards,wh.estateLicense,wh.degree,wh.renovate,wh.lastRenovate,wh.labels,wh.property_type,wh.hot ishot,wh.floor,wh.area,wh.room,wc.comm from wx_housesource wh left join wx_comm wc on wh.commid = wc.id  where
+		  <choose>
+			  <when test=" type !='' and type != null ">
+			  	wh.trading_type = #{type} and 
+			  </when>
+			  <otherwise>
+			  	wh.trading_type != #{type} and 
+			  </otherwise>
+		  </choose>
+		  wc.storeId = #{storeId} and
+		  <if test=" keys !='' and keys != null ">
+		  	wc.comm like concat("%",concat(#{keys},"%")) and 
+		  </if>
+		  <if test=" room !='' and room != null ">
+		  	wh.room like concat(#{room},"%") and 
+		  </if>
+		  <if test=" towards !='' and towards != null ">
+		  	wh.towards = #{towards} and 
+		  </if>
+		  <if test=" genre !='' and genre != null ">
+		  	wh.genre = #{genre} and 
+		  </if>
+		  <if test=" priceMin !='' and priceMin != null and priceMax !='' and priceMax != null  ">
+		  	wh.total &gt;= #{priceMin} and wh.total &lt;= #{priceMax} and 
+		  </if>
+		  (wh.ispublic = "1" or wh.agent_openid in (select agent_openid from wx_agent_client where client_openid = #{openid} or agent_openid =  #{openid}) or wh.agent_openid  = #{openid})
+		  order by entry_time desc  limit #{_st},#{_ed}
+	</select>
+	<select id="getMyHouseByType" resultType="com.shenyingchengxun.house.bean.HouseSource">
+		select wh.vrno,wh.vr_path,wh.tuiguangyu,wh.entry_time entryTime,wh.total_floor totalFloor,wh.rent_type rentType, wh.houseid,wh.agent_openid openid,wh.commid,wh.buildingNo buildingno,wh.total,wh.ave_price,wh.years,wh.trading_type,wh.info,wh.new isnew,wh.outdoor,wh.lift,wh.showStatus,wh.showTime,wh.arrears,
+		  wh.only,wh.towards,wh.estateLicense,wh.degree,wh.renovate,wh.lastRenovate,wh.labels,wh.property_type,wh.hot ishot,wh.floor,wh.area,wh.room,wc.comm 
+		  from wx_housesource wh left join wx_comm wc on wh.commid = wc.id  
+		  where	wh.trading_type = #{type} and 
+		  wc.storeId = #{storeId} and
+		  wh.agent_openid  = #{openid} 
+		  order by entry_time desc limit #{_st},#{_ed}
+	</select>
+	<select id="getHouseListByCommType"  resultType="com.shenyingchengxun.house.bean.HouseSource">
+		select wh.vrno,wh.vr_path,wh.tuiguangyu,wh.entry_time entryTime,wh.total_floor totalFloor,wh.rent_type rentType, wh.houseid,wh.agent_openid openid,wh.commid,wh.buildingNo buildingno,wh.total,wh.ave_price,wh.years,wh.trading_type,wh.info,wh.new isnew,wh.outdoor,wh.lift,wh.showStatus,wh.showTime,wh.arrears,
+		  wh.only,wh.towards,wh.estateLicense,wh.degree,wh.renovate,wh.lastRenovate,wh.labels,wh.property_type,wh.hot ishot,wh.floor,wh.area,wh.room,wc.comm from wx_housesource wh left join wx_comm wc on wh.commid = wc.id  where
+		  <choose>
+			  <when test=" type !='' and type != null ">
+			  	wh.trading_type = #{type} and 
+			  </when>
+			  <otherwise>
+			  	wh.trading_type != #{type} and 
+			  </otherwise>
+		  </choose>
+		  wc.storeId = #{storeId} and 
+		  <if test=" keys !='' and keys != null ">
+		  	wc.comm = #{keys} and 
+		  </if>
+		  (wh.ispublic = "1" or wh.agent_openid in (select agent_openid from wx_agent_client where client_openid = #{openid} or agent_openid =  #{openid}) or wh.agent_openid  = #{openid})
+		  order by entry_time desc limit #{_st},#{_ed}
+	</select>
+	<select id="getAllHouseListByStoreId" parameterType="String" resultType="com.shenyingchengxun.house.bean.HouseSource">
+		select wh.vrno,wh.vr_path,wh.tuiguangyu,wh.entry_time entryTime,wh.total_floor totalFloor,wh.ispublic,wh.rent_type rentType, wh.houseid,wh.agent_openid openid,wh.commid,wh.buildingNo buildingno,wh.total,wh.ave_price,wh.years,wh.trading_type,wh.info,wh.new isnew,wh.outdoor,wh.lift,wh.showStatus,wh.showTime,wh.arrears,
+		  wh.only,wh.towards,wh.estateLicense,wh.degree,wh.renovate,wh.lastRenovate,wh.labels,wh.property_type,wh.hot ishot,wh.floor,wh.area,wh.room,wc.comm from wx_housesource wh left join wx_comm wc on wh.commid = wc.id  
+		where wh.trading_type = #{type} and wc.storeId = #{storeId} and (wh.ispublic = "1" or wh.agent_openid in (select agent_openid from wx_agent_client where client_openid = #{openid} or agent_openid =  #{openid}) or wh.agent_openid  = #{openid}) order by entry_time desc
+	</select>
+	<select id="getStoreHotHouseList" resultType="com.shenyingchengxun.house.bean.HouseSource">
+		select wh.vrno,wh.vr_path,wh.tuiguangyu,wh.entry_time entryTime,wh.total_floor totalFloor,wh.rent_type rentType, wh.houseid,wh.agent_openid openid,wh.commid,wh.buildingNo buildingno,wh.total,wh.ave_price,wh.years,wh.trading_type,wh.info,wh.new isnew,wh.outdoor,wh.lift,wh.showStatus,wh.showTime,wh.arrears,
+		  wh.only,wh.towards,wh.estateLicense,wh.degree,wh.renovate,wh.lastRenovate,wh.labels,wh.property_type,wh.hot ishot,wh.floor,wh.area,wh.room,wc.comm from wx_housesource wh left join wx_comm wc on wh.commid = wc.id  
+		where wc.storeId = #{storeId} and (wh.`hot` = "1" or wh.`new`= "1") and (wh.ispublic = "1" or wh.agent_openid in (select agent_openid from wx_agent_client where client_openid = #{openid} or agent_openid =  #{openid}) or wh.agent_openid  = #{openid}) order by entry_time desc limit #{_st},#{_ed}
+	</select>
+	<insert id="addRequire" parameterType="String">
+		INSERT INTO wx_require(id,openid,storeId,type,name,phone,remark,city,district,street,usedto,decorate,rent_type,price,room,area,times) 
+		VALUES (#{require.id},#{require.openid},#{require.storeId},#{require.type},#{require.name},#{require.phone},#{require.remark},#{require.city},
+		#{require.district},#{require.street},#{require.usedto},#{require.decorate},#{require.rent_type},#{require.price},#{require.room},
+		#{require.area},NOW());
+	</insert>
+	<delete id="delMyHouseById" parameterType="String">
+		delete from wx_housesource where houseid = #{houseid}
+	</delete>
+	
+	<insert id="addClientHouseSource" parameterType="com.shenyingchengxun.house.bean.HouseSource">
+		  insert into wx_clienthouse1 (entry_time,houseid,openid,commid,tuiguangyu,buildingNo,unitno,doorno,houseno,total,area,ave_price,room,towards,years,floor,total_floor,property_type,
+		  trading_type,info,outdoor,lift,showStatus,showTime,arrears,rent_type,
+		  only,estateLicense,degree,renovate,lastRenovate,labels,perPhone,ispublic,vrno,vr_path,genre,picPath) values 
+		  (now(), #{hs.houseid},#{hs.openid}, #{hs.commid},#{hs.tuiguangyu}, #{hs.buildingno}, #{hs.unitno}, #{hs.doorno}, #{hs.houseno}, #{hs.total}, #{hs.area}, #{hs.ave_price}, #{hs.room}, 
+		  #{hs.towards}, #{hs.years}, #{hs.floor},#{hs.totalFloor}, #{hs.property_type}, #{hs.trading_type}, #{hs.info},#{hs.outdoor},#{hs.lift},#{hs.showStatus},
+		  #{hs.showTime},#{hs.arrears},#{hs.rentType},
+		  #{hs.only},#{hs.estateLicense},#{hs.degree},#{hs.renovate},#{hs.lastRenovate}, #{hs.labels}, #{hs.perPhone}, #{hs.ispublic}, 
+		  #{hs.vrno}, #{hs.vr_path},#{hs.genre},#{hs.picPath})
+	</insert>
+	
+	<select id="getClientHouseByHouseid" parameterType="String" resultType="com.shenyingchengxun.house.bean.HouseSource">
+	    SELECT c.`comm`,c.`city`,c.`area`,c.`street`,c.`address`,ch.`trading_type` FROM wx_clienthouse1 ch INNER JOIN wx_comm c ON ch.`commid` = c.`id` WHERE houseid = #{houseid}
+	</select>
+	
+	<update id="upClientHouseSourceById" parameterType="com.shenyingchengxun.house.bean.HouseSource">
+	    update wx_clienthouse1 set entry_time = now(),commid = #{hs.commid},buildingNo=#{hs.buildingno},unitno=#{hs.unitno},tuiguangyu = #{hs.tuiguangyu},
+		  doorno=#{hs.doorno},houseno=#{hs.houseno},total=#{hs.total},area=#{hs.area},ave_price=#{hs.ave_price},
+		  room= #{hs.room},towards=#{hs.towards},years=#{hs.years}, floor=#{hs.floor},total_floor= #{hs.totalFloor},property_type=#{hs.property_type},info=#{hs.info},
+		  outdoor=#{hs.outdoor},lift=#{hs.lift},showStatus=#{hs.showStatus},showTime=#{hs.showTime},arrears=#{hs.arrears},rent_type=#{hs.rentType},only=#{hs.only},
+		  estateLicense=#{hs.estateLicense},degree=#{hs.degree},renovate=#{hs.renovate},lastRenovate=#{hs.lastRenovate},labels= #{hs.labels},perPhone=#{hs.perPhone}, 
+		  ispublic=#{hs.ispublic}, vrno= #{hs.vrno},vr_path=#{hs.vr_path},genre=#{hs.genre}
+		  where houseid = #{hs.houseid}
+	</update>
+	
+	<insert id="copyClientHouseToAgentHouse" parameterType="String">
+	    INSERT INTO `wx_housesource`(houseid,agent_openid,commid,tuiguangyu,buildingNo,unitno,doorno,houseno,total,rent_type,AREA,ave_price,
+	    room,towards,years,FLOOR,total_floor,property_type,trading_type,NEW,hot,info,labels,outdoor,lastRenovate,renovate,degree,
+	    estateLicense,only,arrears,showTime,showStatus,lift,perPhone,ispublic,entry_time,vrno,vr_path,centralnotes,centralnotesTime,
+	    matingnotes,matingnotesTime,notes,genre,picPath,videopath)
+	    SELECT houseid,agent_openid AS openid,commid,tuiguangyu,buildingNo,unitno,doorno,houseno,total,rent_type,AREA,ave_price,room,
+	    towards,years,FLOOR,total_floor,property_type,trading_type,NEW,hot,info,labels,outdoor,lastRenovate,renovate,degree,
+	    estateLicense,only,arrears,showTime,showStatus,lift,perPhone,ispublic,entry_time,vrno,vr_path,centralnotes,centralnotesTime,
+	    matingnotes,matingnotesTime,notes,genre,picPath,videopath FROM wx_clienthouse1 WHERE houseid = #{houseid}
+	</insert>
+	
+	<update id="updateClientHouseIsdeal" parameterType="String">
+	   UPDATE wx_clienthouse1 SET isdeal = 'y' WHERE houseid = #{houseid}
+	</update>
+	
+	<select id="getClientHouseInfoByHouseid" parameterType="String" resultType="com.shenyingchengxun.house.bean.HouseSource">
+	   SELECT wh.centralnotes,wh.centralnotesTime,wh.tuiguangyu,wh.matingnotesTime,wh.matingnotes,wh.entry_time entryTime,wh.total_floor totalFloor,wh.rent_type rentType, 
+       wh.houseid,wh.agent_openid openid,wh.commid,wh.buildingNo buildingno,wh.total,wh.ave_price,wh.years,wh.trading_type,wh.info,wh.new isnew,wh.outdoor,wh.lift,wh.showStatus,wh.showTime,wh.arrears,
+       wh.vrno,wh.vr_path,wh.only,wh.towards,wh.estateLicense,wh.degree,wh.renovate,wh.lastRenovate,wh.labels,wh.property_type,wh.hot ishot,wh.floor,wh.area,wh.room,wh.perPhone,wh.ispublic,wh.genre,
+       wh.unitno,wh.doorno,wh.houseno,wc.comm,wc.address,wc.lng,wc.lat FROM wx_clienthouse1 wh LEFT JOIN wx_comm wc ON wh.commid = wc.id  WHERE wh.houseid = #{houseid}
+	</select>
+	
+	<update id="updateRequireAgentByRequireid" parameterType="String">
+	   UPDATE wx_require SET agent_openid = #{agent_openid} where id = #{requireid}
+	</update>
+	
+	<select id="getRequireByRequireid" parameterType="String" resultType="com.shenyingchengxun.house.bean.Require">
+	   SELECT id,openid,agent_openid,storeId,type,name,phone,city,district,street,remark,usedto,decorate,rent_type,price,room,area,times
+	   FROM wx_require WHERE id = #{requireid}
+	</select>
+</mapper>

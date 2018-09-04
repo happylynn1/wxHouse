@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shenyingchengxun.house.dao.VisitLogDao">
+	<insert id="addVisitLog" parameterType="com.shenyingchengxun.house.bean.VisitLog">
+		  insert into wx_clientvisit_log (client_openid,houseid,click_time,comm,price,room,towards,area,years,floor,property_type,trading_type) values 
+			(#{vl.openid},#{vl.houseid},now(),#{vl.comm},#{vl.price},#{vl.room},#{vl.towards},#{vl.area},#{vl.years},#{vl.floor},#{vl.property_type},#{vl.type}) 
+	</insert>
+	<select id="getMyVisitLogList" parameterType="String" resultType="com.shenyingchengxun.house.bean.VisitLog">
+		select a.click_time,a.openid,a.houseid,a.comm,a.price,a.room,a.towards,a.area,a.floor,a.property_type,a.type from (select click_time,client_openid openid,houseid,comm,price,room,towards,area,floor,property_type,trading_type type from wx_clientvisit_log where client_openid = #{openid} order by click_time desc)a group by a.houseid limit 10 
+	</select>
+</mapper>

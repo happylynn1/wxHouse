@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shenyingchengxun.chat.dao.ChatcDao">
+	<select id="getUnreadMsgByOpenid" parameterType="com.shenyingchengxun.chat.bean.ChatLog" resultType="com.shenyingchengxun.chat.bean.ChatLog">
+	  SELECT senderid,receiverid,content,TYPE,chat_time,unread FROM `wx_chatlog` 
+	  WHERE senderid = #{receiverid} and receiverid = #{senderid} and unread='0' order by chat_time	
+	</select>
+	<select id="getOldMsg" resultType="com.shenyingchengxun.chat.bean.ChatLog">
+	  select a.* from (select senderid,receiverid,content,type,chat_time from wx_chatlog where
+	  (senderid = #{openid} and receiverid = #{toOpenid}) or (senderid = #{toOpenid} and receiverid = #{openid})
+	  order by chat_time desc limit #{index},#{pageNum}) a order by a.chat_time
+	</select>
+	<update id="updateMsgSendToRead" parameterType="com.shenyingchengxun.chat.bean.ChatLog">
+	  UPDATE wx_msg_send SET status = '已读' WHERE openid = #{receiverid} and toOpenid = #{senderid} and status='未读'
+	</update>
+	<update id="updateUnreadToRead" parameterType="com.shenyingchengxun.chat.bean.ChatLog">
+	  UPDATE wx_chatlog SET unread = '1' WHERE senderid = #{receiverid} and receiverid = #{senderid} and unread='0'
+	</update>
+	<insert id="addChatList" parameterType="String">
+		insert into wx_chatlist (openid,toOpenid,times) values (#{openid},#{toOpenid},now()) on DUPLICATE KEY update times = now();
+	</insert>
+	<select id="getChatUserList" parameterType="String" resultType="java.util.Map">
+		select b.openid,if(c.head_image is null,d.head_image,c.head_image) headImage from  
+		(select toOpenid as openid,times from wx_chatlist where openid = #{openid} group by toOpenid order by times desc) b
+		left join wx_agentinfo c on b.openid = c.agent_openid 
+		left join wx_client d on b.openid = d.client_openid
+	</select>
+	<delete id="delChatLog" parameterType="String">
+		delete from `wx_chatlog`  where senderid = #{openid} or receiverid = #{openid};
+	</delete>
+	<delete id="delChatListByOpenid" parameterType="String">
+		delete from `wx_chatlist`  where openid = #{openid} or toOpenid = #{openid}
+	</delete>
+	<delete id="delChatList" parameterType="String">
+		delete from `wx_chatlist`  where openid = #{openid} and toOpenid = #{toOpenid}
+	</delete>
+	<update id="upRequire" parameterType="String">
+		update wx_agent_client set `require` = #{require} where agent_openid = #{openid} and client_openid = #{toOpenid}
+	</update>
+	<select id="getRequire" parameterType="String" resultType="String">
+		select `require` from  wx_agent_client where agent_openid = #{openid} and client_openid = #{toOpenid}
+	</select>
+	<select id="getAgentClient" parameterType="String" resultType="Integer">
+		select count(*) from  wx_agent_client where agent_openid = #{openid} and client_openid = #{toOpenid}
+	</select>
+</mapper>

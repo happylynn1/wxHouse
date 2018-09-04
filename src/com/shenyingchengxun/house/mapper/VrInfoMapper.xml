@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shenyingchengxun.house.dao.VrInfoDao">
+	<select id="getVrlist" parameterType="String" resultType="com.shenyingchengxun.house.bean.VrInfo">
+		select vrno,comm,area,room,towards,image_path,vr_path from wx_vr_info where (phone = #{phone} or Company=1) and free = 'y' and 
+		<if test=" comm !=null ">
+			comm like concat('%',concat(#{comm},'%')) and
+		</if>
+		<if test=" area != null and area != '' ">
+			area  = #{area} and
+		</if>
+		<if test=" room !=null and room != '' ">
+			room = #{room} and
+		</if>
+		<if test=" towards !=null and towards != '' ">
+			towards = #{towards} and
+		</if>
+		1=1
+	</select>
+	<select id="getMyVr" parameterType="String" resultType="com.shenyingchengxun.house.bean.VrInfo">
+		select vrno,comm,area,room,towards,image_path,vr_path from wx_vr_info where vrno = #{vrno}
+	</select>
+</mapper>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shenyingchengxun.action.dao.AgentClientDao">
+	<insert id="addAgentClient" parameterType="com.shenyingchengxun.action.bean.AgentClient">
+		insert into wx_agent_client 
+		(agent_openid,client_openid,add_time) 
+		values (#{ac.agentOpenid},#{ac.clientOpenid},now()) 
+	</insert>
+	<select id="getAgentClient" parameterType="com.shenyingchengxun.action.bean.AgentClient" resultType="Map">
+		select agent_openid,client_openid from wx_agent_client where agent_openid = #{ac.agentOpenid} and client_openid = #{ac.clientOpenid}
+	</select>
+	<delete id="delAgentClient" parameterType="String">
+		delete from wx_agent_client where agent_openid = #{openid} or client_openid = #{openid}
+	</delete>
+</mapper>

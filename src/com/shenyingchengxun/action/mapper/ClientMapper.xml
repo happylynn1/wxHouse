@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shenyingchengxun.action.dao.ClientDao">
+	<insert id="addClient" parameterType="com.shenyingchengxun.action.bean.Client">
+		insert ignore into wx_client (storeid,client_openid,
+		<if test=" client.nickname!=null and client.nickname !='' ">
+			nickname,
+		</if>
+		<if test=" client.gender!=null and client.gender !='' ">
+			gender,
+		</if>
+		<if test=" client.city!=null and client.city !='' ">
+			city,
+		</if>
+		<if test=" client.headImage!=null and client.headImage !='' ">
+			head_image,
+		</if>
+		reg_time) values (#{client.storeid},#{client.openid},
+		<if test=" client.nickname!=null and client.nickname !='' ">
+			#{client.nickname},
+		</if>
+		<if test=" client.gender!=null and client.gender !='' ">
+			#{client.gender},
+		</if>
+		<if test=" client.city!=null and client.city !='' ">
+			#{client.city},
+		</if>
+		<if test=" client.headImage!=null and client.headImage !='' ">
+			#{client.headImage},
+		</if>
+		now())
+	</insert>
+	<select id="getClientByOpenid" parameterType="String" resultType="com.shenyingchengxun.action.bean.Client">
+		select storeid,client_openid openid,nickname,gender,city,head_image headImage,status,
+		required from wx_client where client_openid = #{openid} limit 1 
+	</select>
+	<select id="getClientListByAgentOpenid" parameterType="String" resultType="com.shenyingchengxun.action.bean.Client" >
+		select wc.storeid,wc.client_openid openid,wc.nickname,wc.gender,wc.city,wc.head_image headImage,wc.status,
+		wac.require required from wx_client wc left join wx_agent_client wac on wc.client_openid = wac.client_openid where wc.client_openid in 
+		(select t.client_openid from  (select client_openid from wx_agent_client where agent_openid=#{openid}
+		union SELECT senderid AS client_openid FROM wx_chatlog WHERE receiverid = #{openid} AND unread = '0'
+		union SELECT receiverid AS client_openid FROM wx_chatlog WHERE senderid = #{openid} AND unread = '0'
+		) t group by t.client_openid)
+		and storeId  =#{storeId}
+	</select>
+	<delete id="delClient" parameterType ="String">
+		delete from wx_client where client_openid = #{openid}
+	</delete>
+	<select id="getClientListByChatAgent" parameterType="String" resultType="com.shenyingchengxun.action.bean.Client">
+	    SELECT wc.storeid,wc.client_openid openid,wc.nickname,wc.gender,wc.city,wc.head_image headImage,wc.status, 
+	    wac.require required FROM wx_client wc LEFT JOIN wx_agent_client wac ON wc.client_openid = wac.client_openid 
+	    WHERE wc.client_openid IN (SELECT client_openid FROM (  
+	    (SELECT senderid AS client_openid FROM wx_chatlog WHERE receiverid = #{openid} AND unread = '0' )   
+	    UNION (SELECT receiverid AS client_openid FROM wx_chatlog WHERE senderid = #{openid} AND unread = '0' )  
+	     ) AS t)
+	    and storeId  =#{storeId}
+	</select>
+</mapper>

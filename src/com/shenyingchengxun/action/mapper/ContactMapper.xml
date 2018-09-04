@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shenyingchengxun.action.dao.ContactDao">
+	<insert id="addContactFilter" parameterType="String">
+		insert into wx_contact_filter (openid,toOpenid,times) 
+		values (#{openid},#{toOpenid},now())
+	</insert>
+	<select id="getFilterAgentByOpenid" parameterType="String" resultType="com.shenyingchengxun.action.bean.Agent">
+		select agent_openid openid,nickname,gender,city,company,storeId, store_name storeName,head_image,
+		name,phone,manage_comm manageComm,speciality,workperiod,isonjob,viprole,house_amount houseAmount,
+		vr_amount vrAmount,uuid from wx_agentinfo where agent_openid in 
+		(select toOpenid from wx_contact_filter where openid= #{openid})
+	</select>
+	<select id="getFilterClientByOpenid" parameterType="String" resultType="com.shenyingchengxun.action.bean.Client">
+		select storeid,client_openid openid,nickname,gender,city,head_image headImage,status from wx_client  where client_openid in 
+		(select toOpenid from wx_contact_filter where openid= #{openid})	
+	</select>
+	<delete id="delContactFilter" parameterType ="String">
+		delete from wx_contact_filter where (openid=#{openid} and toOpenid=#{toOpenid}) or (openid=#{toOpenid} and toOpenid=#{openid})
+	</delete>
+</mapper>

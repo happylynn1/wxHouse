@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shenyingchengxun.house.dao.PictureDao">
+	<select id="getPictureByOpenid" parameterType="String" resultType="com.shenyingchengxun.house.bean.Picture">
+		select houseid,imagepath,filename,openid from wx_houseimage where openid = #{openid} and houseid is null order by isFirst desc 
+	</select>
+	<select id="getPictureByHouseid" parameterType="String" resultType="com.shenyingchengxun.house.bean.Picture">
+		select houseid,imagepath,filename,openid from wx_houseimage where houseid = #{houseid} order by isFirst desc
+	</select>
+	<insert id="addPictureByOpenid" parameterType="com.shenyingchengxun.house.bean.Picture">
+		insert into  wx_houseimage (houseid,imagepath,filename,openid,isFirst) values (#{picture.houseid},#{picture.imagepath},#{picture.filename},#{picture.openid},'0')
+	</insert>
+	<update id="upPictureByOpenid" parameterType="com.shenyingchengxun.house.bean.Picture">
+		update wx_houseimage set houseid = #{picture.houseid} where openid = #{picture.openid} and houseid is null  
+	</update>
+	<update id="upPictureByPicName" parameterType="String">
+		update wx_houseimage set isFirst = '1' where imagepath = #{picPath} and openid = #{openid}  
+	</update>
+	<update id="upPictureByHouseid" parameterType="String">
+		update wx_houseimage set isFirst = '0' where houseid = #{houseid}  
+	</update>
+	<update id="upPictureByPicNameAndHouseid" parameterType="String">
+		update wx_houseimage set isFirst = '1' where imagepath = #{picPath} and houseid = #{houseid}  
+	</update>
+	<delete id="delPicture" parameterType="String">
+		delete from wx_houseimage where openid = #{openid} and filename = #{filename} and houseid is null  
+	</delete>
+	<delete id="delPictureById" parameterType="String">
+		delete from wx_houseimage where filename = #{filename} and houseid = #{houseid}
+	</delete>
+	<delete id="delPictureByHouseid" parameterType="String">
+		delete from wx_houseimage where  houseid = #{houseid}
+	</delete>
+	
+	<insert id="addVideoInfo" parameterType="com.shenyingchengxun.house.bean.Video">
+	    insert into wx_housevideo(houseid,videopath,filename,openid,storeid) values (#{video.houseid},#{video.videopath},#{video.filename},#{video.openid},#{video.storeid})
+	</insert>
+	<select id="getFileNameByOpenid" parameterType="String" resultType="String">
+	    select filename from wx_housevideo where openid = #{openid} and storeid = #{storeid} and houseid is null
+	</select>
+	<delete id="delVideoByOpenid" parameterType="String">
+	    delete from wx_housevideo where openid = #{openid} and storeid = #{storeid} and houseid is null
+	</delete>
+	<delete id="delVideoByFilename" parameterType="String">
+	    delete from wx_housevideo where filename = #{filename} and houseid is null 
+	</delete>
+	<delete id="delVideoByFilenameAndHouseid" parameterType="String">
+	    delete from wx_housevideo where filename = #{filename} and houseid = #{houseid}
+	</delete>
+	<select id="getVideoPathByOpenid" parameterType="String" resultType="String">
+	    select videopath from wx_housevideo where openid = #{openid} and storeid = #{storeid} and houseid is null
+	</select>
+	<update id="upVideoByOpenid" parameterType="String">
+	    update wx_housevideo set houseid = #{houseid} where openid = #{openid} and storeid = #{storeid} and houseid is null
+	</update>
+	<select id="getVideoByHouseid" parameterType="String" resultType="com.shenyingchengxun.house.bean.Video">
+	    select houseid,videopath,filename,openid,storeid from wx_housevideo where houseid = #{houseid}
+	</select>
+</mapper>

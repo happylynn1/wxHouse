@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shenyingchengxun.action.dao.AgentDao">
+	<select id="getAgentByOpenid" parameterType="String" resultType="com.shenyingchengxun.action.bean.Agent">
+		select agent_openid openid,nickname,gender,city,company,storeId, store_name storeName,head_image,
+		name,phone,manage_comm manageComm,speciality,workperiod,isonjob,viprole,house_amount houseAmount,
+		vr_amount vrAmount,uuid from wx_agentinfo where agent_openid = #{openid} limit 1
+	</select>
+	<select id="getAgentListByClientOpenid" parameterType="String" resultType="com.shenyingchengxun.action.bean.Agent">
+		select agent_openid openid,nickname,gender,city,company,storeId, store_name storeName,head_image,
+		name,phone,manage_comm manageComm,speciality,workperiod,isonjob,viprole,house_amount houseAmount,
+		vr_amount vrAmount,uuid from wx_agentinfo where agent_openid in 
+		(select t.agent_openid from (select agent_openid from wx_agent_client where client_openid=#{openid}
+		 UNION SELECT senderid AS agent_openid FROM wx_chatlog WHERE receiverid = #{openid} AND unread = '0'
+		 UNION SELECT receiverid AS agent_openid FROM wx_chatlog WHERE senderid = #{openid} AND unread = '0'	
+		) t group by t.agent_openid)
+		and storeId  =#{storeId}
+	</select>
+	<select id="getAgentListByStoreId" parameterType="String" resultType="com.shenyingchengxun.action.bean.Agent">
+		select agent_openid openid,nickname,gender,city,company,storeId, store_name storeName,head_image,
+		name,phone,manage_comm manageComm,speciality,workperiod,isonjob,viprole,house_amount houseAmount,
+		vr_amount vrAmount,uuid from wx_agentinfo where storeId = #{storeId} 
+		<if test =" keys!='' and keys != null ">
+			and (nickname like concat("%",concat(#{keys},"%")) or name like concat("%",concat(#{keys},"%"))) 
+		</if>
+	</select>
+	<insert id="addAgent" parameterType="com.shenyingchengxun.action.bean.Agent">
+		insert into wx_agentinfo (storeid,gender,city,head_image,agent_openid,nickname) 
+		values (#{agent.storeId},#{agent.gender},#{agent.city},#{agent.head_image},#{agent.openid},#{agent.nickname})
+	</insert>
+	<select id="getAgentListByChatClient" parameterType="String" resultType="com.shenyingchengxun.action.bean.Agent">
+	    SELECT agent_openid openid,nickname,gender,city,company,storeId, store_name storeName,head_image,
+	    name,phone,manage_comm manageComm,speciality,workperiod,isonjob,viprole,house_amount houseAmount,
+	    vr_amount vrAmount,UUID FROM wx_agentinfo WHERE agent_openid IN (SELECT agent_openid FROM (
+	    (SELECT senderid AS agent_openid FROM wx_chatlog WHERE receiverid = #{openid} AND unread = '0' ) 
+	    UNION (SELECT receiverid AS agent_openid FROM wx_chatlog WHERE senderid = #{openid} AND unread = '0' )) AS t)
+	    and storeId  =#{storeId}
+	</select>
+</mapper>

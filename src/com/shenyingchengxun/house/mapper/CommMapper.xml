@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shenyingchengxun.house.dao.CommDao">
+	<select id="getCommByStoreIdAndComm" parameterType="String" resultType="com.shenyingchengxun.house.bean.Comm">
+		select id,comm,city,area,street,storeId,avg_price from wx_comm where storeId = #{storeId} and comm  = #{comm} limit 1
+	</select>
+	<select id="getCommByCommid" parameterType="String" resultType="com.shenyingchengxun.house.bean.Comm">
+		select id,comm,city,area,street,storeId,avg_price from wx_comm where id = #{id}
+	</select>
+	<insert id="addComm" parameterType="com.shenyingchengxun.house.bean.Comm" keyProperty="comm.id" useGeneratedKeys ="true" >
+		insert into  wx_comm (comm,city,storeId,area,street,address,lng,lat) values (#{comm.name},#{comm.city},#{comm.storeId},#{comm.area},#{comm.street},#{comm.address},#{comm.lng},#{comm.lat})
+	</insert>
+	<update id="upComm" parameterType="com.shenyingchengxun.house.bean.Comm">
+		update wx_comm set lng = #{comm.lng}, lat = #{comm.lat} where id = #{comm.id}
+	</update>
+	<select id="getCommList" parameterType="String" resultType="com.shenyingchengxun.house.bean.Comm">
+		select wc.comm name,wc.area,wc.avg_price,wc.street,
+			(select count(*) num from wx_housesource a where a.commid = wc.id and a.trading_type ='sale' and (a.agent_openid in (select agent_openid from wx_agent_client where client_openid = #{openid})or a.agent_openid=#{openid} or a.ispublic = '1' ) group by a.commid) saleNum,
+			(select count(*) num from wx_housesource b where b.commid = wc.id and b.trading_type ='rent' and (b.agent_openid in (select agent_openid from wx_agent_client where client_openid = #{openid})or b.agent_openid=#{openid} or b.ispublic = '1' ) group by b.commid) rentNum,
+			whi.pic_path picPath
+ 		from wx_comm wc left join wx_comm_picture whi on whi.store_id = wc.storeId and whi.comm_id = wc.id and whi.is_focus = '1' where wc.storeId= #{storeId}
+ 		<if test=" comm!=null  and comm!='' ">
+ 			and wc.comm like concat("%",concat(#{comm},"%"))   
+ 		</if>
+ 		group by wc.id limit #{_st},#{_ed}
+	</select>
+	<!--此方法不区分openid,上面方法区分openid <select id="getCommList" parameterType="String" resultType="com.shenyingchengxun.house.bean.Comm">
+		select wc.comm name,wc.area,wc.avg_price,wc.street,
+			(select count(*) num from wx_housesource a where a.commid = wc.id and a.trading_type ='sale' group by a.commid) saleNum,
+			(select count(*) num from wx_housesource b where b.commid = wc.id and b.trading_type ='rent' group by b.commid) rentNum,
+			d.houseid,
+			whi.imagepath picPath
+ 		from wx_comm wc left join wx_housesource d on wc.id = d.commid left join wx_houseimage whi on whi.houseid = d.houseid where wc.storeId= #{storeId}
+ 		<if test=" comm!=null  and comm!='' ">
+ 			and wc.comm like concat("%",concat(#{comm},"%"))   
+ 		</if>
+ 		group by wc.id
+	</select> -->
+</mapper>
