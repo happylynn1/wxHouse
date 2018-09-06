@@ -1,3 +1,15 @@
+jQuery.fn.shake = function (intShakes /*Amount of shakes*/, intDistance /*Shake distance*/, intDuration /*Time duration*/) {
+    this.each(function () {
+        var jqNode = $(this);
+        jqNode.css({ position: 'relative' });
+        for (var x = 1; x <= intShakes; x++) {
+            jqNode.animate({ left: (intDistance * -1) }, (((intDuration / intShakes) / 4)))
+            .animate({ left: intDistance }, ((intDuration / intShakes) / 2))
+            .animate({ left: 0 }, (((intDuration / intShakes) / 4)));
+        }
+    });
+    return this;
+};
 var ext = {
 	/* 项目根路径 */
 	path : "",
@@ -20,6 +32,32 @@ var ext = {
 		this.defaultHeadImage = p + "res/images/defaultHead.jpg";
 		this.defaultStoreImage = p + "res/images/defaultStore.jpg";
 	},
+	p:function(s) {
+	    return s < 10 ? '0' + s: s;
+	},
+	isPoneAvailable:function(s) {
+        var myreg=/^[1][3,4,5,7,8][0-9]{9}$/;
+        return myreg.test(s);
+    },
+    isBefore:function(s){
+    	var d = new Date(s.replace(/\-/g, "\/"));
+    	var n = new Date();
+    	return (d.getTime()+59000)>=n.getTime();
+    },
+    inWeek:function(s){
+    	var d = new Date(s.replace(/\-/g, "\/"));
+    	var n = new Date();
+    	return d.getTime()<=(n.getTime()+604740000);
+    },
+	getTime:function(){
+		var myDate = new Date();
+		var year=myDate.getFullYear();
+		var month=myDate.getMonth()+1;
+		var date=myDate.getDate(); 
+		var h=myDate.getHours();
+		var m=myDate.getMinutes();
+		return year+'-'+ext.p(month)+"-"+ext.p(date)+" "+ext.p(h)+':'+ext.p(m);
+	},
 	timeFormat:function(t){
 		var _t = new Date(new Date(new Date().toLocaleDateString()).getTime()),_y = new Date(_t - 86400000);
 		var _n = new Date(),_d = new Date(t),_c = (_n.getTime() - _d.getTime())/1000;
@@ -28,6 +66,15 @@ var ext = {
 		if(_d>_t) return "今天"+t.substr(11,8);
 		if(_d>_y) return "昨天"+t.substr(11,8);
 		return t.substr(0,19);
+	},
+	timeFormat2:function(s){
+		var time = new Date(s.time);
+		var y = time.getFullYear();//年
+		var m = time.getMonth() + 1;//月
+		var d = time.getDate();//日
+		var h = time.getHours();//时
+		var mm = time.getMinutes();//分
+		return y+"-"+ext.p(m)+"-"+ext.p(d)+" "+ext.p(h)+":"+ext.p(mm);	
 	}
 };
 //上滑分页组件
@@ -67,7 +114,6 @@ var initjsSDK = function(url, arr) {
 			if(url.indexOf("houseSourceInfo2.do")>0){
 				var houseid = url.slice(url.indexOf("=")+1,url.indexOf("&"));
 				$.post(ext.path+"house/getHouseSourceByHouseid.do",{houseid:houseid,storeId:storeId},function(data){
-					console.log(data);
 					if(!data.hs){
 						location.href= ext.path+"page/errorHouse.do";
 						return;
@@ -137,7 +183,6 @@ var houseUtil = {
 		}
 		s += f + " 共" + hs.totalFloor + "层   / "+pert+"</dd><dd>";
 		var tagNum = $('body').width()>=360?4:3;
-		console.log("width--->"+$('body').width());
 		$.each(htl, function(i, b) {
 			if (i < tagNum) {
 				s += "<span class='Dmark" + i + "'>" + b + "</span>";
@@ -172,7 +217,6 @@ var houseUtil = {
 			s+="</dd><dd>";
 		}
 		var tagNum = $('body').width()>=360?4:3;
-		console.log("width--->"+$('body').width());
 		$.each(htl, function(i, b) {
 			if (i < tagNum) {
 				s += "<span class='Dmark" + i + "'>" + b + "</span>";
@@ -293,6 +337,21 @@ var houseUtil = {
 	changePic : function(img) {
 		$(img).attr("src", ext.defaultHouseImage);
 	}
+};
+var lookHouseUtil = {
+		showList:function(s, o){
+			var ch = ext.isBefore(ext.timeFormat2(o.time)+":00");
+			var yyvisorIntr = ch?"yyvisorIntr":"yyvisorIntr2";
+			var deal = ch?"<span class='cancel'>取消<br/>预约</span>":"<span id='"+o.id+"' class='del'>删除</span>";
+			s +="<li onclick=\"houseUtil.showInfo('"+o.houseid+"')\" id='"+o.id+"'><div class='items'><div class='"+yyvisorIntr+"'><p class='wzP'>" +
+				"<b>"+o.comm+"</b><span>"+o.total+"元/月</span></p><p class='clearfix'>"+
+				"<a class='yy_sh'>预约时间：" +ext.timeFormat2(o.time)+	"</a><span>" +
+				"<a onclick='persionUtil.contact(this)' data-openid='"+ o.openid +"' class='chatBtn2 fleft'><em>微聊</em></a>";
+			o.phone?(s+="<a class='telBtn2 fleft' href='tel:"+o.phone+"'><em>电话</em></a>"):
+				(s+="<a class='telBtn2 fleft' href=\"javascript:alert('暂未填写电话')\"><em>电话</em></a>");
+			s+=	"</span></p></div><div class='deal'>"+deal+"</div></div></li>";
+			return s;
+		}
 };
 var persionUtil = {
 	/* 拼接客户 */

@@ -17,7 +17,7 @@ public class MenuManager {
 	
 	//access_token
 	//保证最新    位置在数据库中wx_storeinfo表中，如果为空或过期，请在手机微信中操作一下即可更新
-	public static final String access_token = "12_4SToC70mg0ik5VgzaaSKRaCjWKzXMedvqSypgq92gh6Xw1HxZvMc34CFohrfBA-9_vakGxXvZnDzpNAiGdeaRIaxGid2WkkbqTtEPeZ4X1B0djBCYs_5CEtUfDuKXfieDCU2KT29oFpQySKSTTOcAJAFFA";
+	public static final String access_token = "13_Nc1ewN3jLRGeXuWNF7Lb3733QYidJcQ_S1BnGw_W4L6bXuBIrcGhFmcSHAcEH4UGmN4FE7p8soHi4G3foofRD79WmcjxZZRM2DcsIxT0X7YaYgy-qXANsel4JSesq8yFbJ0LRiPJ7GRxeNeLLNNgADAXZZ";
     // 获取access_token的接口地址（GET） 限200（次/天）  
     public static final String Access_token_url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APPID&secret=APPSECRET";  
     // 创建菜单URL（POST） 限100（次/天）
@@ -26,7 +26,7 @@ public class MenuManager {
 	private static Logger log = LoggerFactory.getLogger(MenuManager.class);
 
 	public static void main(String[] args) {
-		int result = createMenu(getMenu1(), access_token);
+		int result = createMenu(getMenu(), access_token);
 		// 判断菜单创建结果
 		if (0 == result) {
 			System.out.println("菜单创建成功！");
@@ -136,23 +136,27 @@ public class MenuManager {
 		btn33.setName("推荐房源");
 		btn33.setType("view");
 		btn33.setUrl(Config.Base+"action/redirect.do?storeId=1&path=page/toCommend.do");
-		
+
 		ViewButton btn34 = new ViewButton();
-		btn34.setName("房源委托");
+		btn34.setName("预约看房");
 		btn34.setType("view");
-		btn34.setUrl(Config.Base+"action/redirect.do?storeId=1&path=page/toSelect.do");
+		btn34.setUrl(Config.Base+"action/redirect.do?storeId=1&path=page/toLookHouseList.do");
+		
+		ViewButton btn35 = new ViewButton();
+		btn35.setName("房源委托");
+		btn35.setType("view");
+		btn35.setUrl(Config.Base+"action/redirect.do?storeId=1&path=page/toSelect.do");
 
 		ComplexButton mainBtn1 = new ComplexButton();
 		mainBtn1.setName("店铺热点");
 		mainBtn1.setType("view");
 		mainBtn1.setUrl(Config.Base+"action/redirect.do?storeId=1&path=page/toStoreHot.do");
-		
 		ComplexButton mainBtn2 = new ComplexButton();
 		mainBtn2.setName("房源查看");
 		mainBtn2.setSub_button(new Button[] { btn25,btn24,btn23,btn22, btn21 });
 		ComplexButton mainBtn3 = new ComplexButton();
 		mainBtn3.setName("信息管理");
-		mainBtn3.setSub_button(new Button[] { btn34, btn33, btn32, btn31 });
+		mainBtn3.setSub_button(new Button[] { btn35,btn34, btn33, btn32, btn31 });
 		
 		Menu menu = new Menu();
 		menu.setButton(new Button[] { mainBtn1, mainBtn2, mainBtn3 });

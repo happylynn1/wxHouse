@@ -21,8 +21,10 @@ public class WxPostUtil {
 	
 	public static Map<String,String> templateMap = new HashMap<String,String>(); 
 	static{
+		// 房源发布成功通知
 		templateMap.put("Store1newHouse", "Nyk40vf4QGtZB3h-P8DUA6Xq-gnfhk_Ot_iKY38Il-8");
 		templateMap.put("Store2newHouse", "-rTkSgUgiK5L3vzek0pZdX5N5aLB8tMDLL7ZUX2snxU");
+		// 访客来咨询通知 
 		templateMap.put("Store1newMsg", "s6t7vyrzVlFjWE9ewXze_OB_NU3_wcep-1wuxzSTnSU");
 		templateMap.put("Store2newMsg", "_erJxsN-Yox9mfiyOKpp4tOVQ6NQdcZ5qp1CuIuhfKk");
 		// 客户委托房源通知
@@ -31,6 +33,12 @@ public class WxPostUtil {
 		// 求租求购需求提醒
 		templateMap.put("Store1requireMsg", "IcEIsRhXLTNY_b5Jnd4ay9GvZ7udYVzjixQlLjgHmks");
 		templateMap.put("Store2requireMsg", "5yx5StglRmX3-Iuemd7D7zSoM3UdLEyPTzbyzAd92R8");
+		// 预约看房提醒 
+		templateMap.put("Store1lookHouseMsg", "DuiRxz0sMdKlrxloidtvyU9oY6lqTzQOaTY0FGLXTyk");
+		templateMap.put("Store2lookHouseMsg", "9x02enUOQrLKa2k9EqKq3ixIe6rkKKL8gebJX8HwETI");
+		// 预约看房取消提醒 
+		templateMap.put("Store1CancellookHouseMsg", "PAh4L68avZaeLei8iCIPjKuX59sIfIzg1tsSrXxcfA0");
+		templateMap.put("Store2CancellookHouseMsg", "9x02enUOQrLKa2k9EqKq3ixIe6rkKKL8gebJX8HwETI");
 	}
 	public static JSONObject creatNewHouseTemplate(String storeId,HouseSource hs,String houseid,String openid){
 		String url=Config.Base+"action/redirect.do?storeId="+storeId+"&path=page/houseSourceInfo2.do?houseid="+houseid+"&storeId="+storeId+"&openid="+openid;
@@ -165,7 +173,72 @@ public class WxPostUtil {
 		JSONObject json = JSONObject.fromObject(map);
 		return json;
 	}
-	
+	public static JSONObject createLookHouseMsgTemplate(String title,String storeId,String name,String phone,String time,String houseInfo,String openid,String url){
+		Map<String,String> mapFirst  = new HashMap<String,String>();
+		mapFirst.put("value", title);
+		mapFirst.put("color", "#173177");
+		Map<String,String> mapName  = new HashMap<String,String>();
+		mapName.put("value", name);
+		mapName.put("color", "#173177");
+		Map<String,String> mapPhone  = new HashMap<String,String>();
+		mapPhone.put("value", phone);
+		mapPhone.put("color", "#173177");
+		Map<String,String> mapTime  = new HashMap<String,String>();
+		mapTime.put("value", time);
+		mapTime.put("color", "#173177");
+		Map<String,String> mapHouseInfo  = new HashMap<String,String>();
+		mapHouseInfo.put("value", houseInfo);
+		mapHouseInfo.put("color", "#173177");
+		Map<String,String> mapRemark  = new HashMap<String,String>();
+		mapRemark.put("value", "点击查看详情");
+		mapRemark.put("color", "#173177");
+		Map<String,Object> mapData  = new HashMap<String,Object>();
+		mapData.put("first", mapFirst);
+		mapData.put("keyword1", mapName);
+		mapData.put("keyword2", mapPhone);
+		mapData.put("keyword3", mapTime);
+		mapData.put("keyword4", mapHouseInfo);
+		mapData.put("remark", mapRemark);
+		Map<String,Object> map  = new HashMap<String,Object>();
+		map.put("touser", openid);
+		map.put("template_id", templateMap.get("Store"+storeId+"lookHouseMsg"));
+		map.put("data", mapData);
+		map.put("color", "#173177");
+		map.put("url", url);
+		JSONObject json = JSONObject.fromObject(map);
+		return json;
+	}
+	public static JSONObject createCancelLookHouseMsgTemplate(String title,String storeId,String time,String houseInfo,String reason,String toOpenid,String url){
+		Map<String,String> mapFirst  = new HashMap<String,String>();
+		mapFirst.put("value", title);
+		mapFirst.put("color", "#173177");
+		Map<String,String> mapContent  = new HashMap<String,String>();
+		mapContent.put("value", houseInfo);
+		mapContent.put("color", "#173177");
+		Map<String,String> mapTime  = new HashMap<String,String>();
+		mapTime.put("value", time);
+		mapTime.put("color", "#173177");
+		Map<String,String> mapReason  = new HashMap<String,String>();
+		mapReason.put("value", reason);
+		mapReason.put("color", "#173177");
+		Map<String,String> mapRemark  = new HashMap<String,String>();
+		mapRemark.put("value", "点击查看详情");
+		mapRemark.put("color", "#173177");
+		Map<String,Object> mapData  = new HashMap<String,Object>();
+		mapData.put("first", mapFirst);
+		mapData.put("keyword1", mapContent);
+		mapData.put("keyword2", mapTime);
+		mapData.put("keyword3", mapReason);
+		mapData.put("remark", mapRemark);
+		Map<String,Object> map  = new HashMap<String,Object>();
+		map.put("touser", toOpenid);
+		map.put("template_id", templateMap.get("Store"+storeId+"CancellookHouseMsg"));
+		map.put("data", mapData);
+		map.put("color", "#173177");
+		map.put("url", url);
+		JSONObject json = JSONObject.fromObject(map);
+		return json;
+	}
 	public static String sendTemplate(String access_token,JSONObject json){
 		String urlStr = templateUrl.replace("ACCESS_TOKEN", access_token);
 		JSONObject jsons =  HttpUtil.httpRequest(urlStr,"POST",json);

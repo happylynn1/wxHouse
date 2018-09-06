@@ -433,6 +433,38 @@ public class page {
 		request.setAttribute("content", request.getParameter("content"));
 		return "chat/chat";
 	}
+	/**
+	 * 预约看房列表
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/toLookHouseList")
+	public String toLookHouseList(HttpServletRequest request,
+			HttpServletResponse response) throws IOException{
+		String openid = setVars(request);
+		String id = (String) request.getParameter("id");
+		request.setAttribute("openid", openid);
+		request.setAttribute("id", id);
+		return "house/lookHouseList";
+	}
+	/**
+	 * 预约看房详情
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/lookHouseInfo")
+	public String lookHouseInfo(HttpServletRequest request,
+			HttpServletResponse response) throws IOException{
+		String openid = setVars(request);
+		String id = (String) request.getParameter("id");
+		request.setAttribute("openid", openid);
+		request.setAttribute("id", id);
+		return "house/lookHouseInfo";
+	}
 	@RequestMapping(value = "/upMyHouseById")
 	public String upMyHouseById(HttpServletRequest request,
 			HttpServletResponse response) throws IOException{

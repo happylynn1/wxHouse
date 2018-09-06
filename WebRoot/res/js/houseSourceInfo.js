@@ -5,6 +5,7 @@ var houseSourceInfo={
 	count:1,
 	type:"",
 	city:"",
+	lookHouse:"",
 	page:0,
 	limit:10,
 	getHouseSourceInfo:function(){
@@ -64,6 +65,7 @@ var houseSourceInfo={
 			$('.markBox').html(markBox);
 			$('.explainList').html(explainList).parent("div.detailsBox1").show();
 			houseSourceInfo.type = data.hs.trading_type;
+			houseSourceInfo.showLookHouseBtn(houseSourceInfo.lookHouse,houseSourceInfo.type);
 			var sss = data.hs.trading_type=="sale"?"售价":"租金";
 			$('.keyBox li').eq(0).html(data.hs.total+(data.hs.trading_type=="sale"?"万元":"元/月")+"<p>"+sss+"</p>");
 			var _r = data.hs.room,_l= _r.length;
@@ -161,6 +163,78 @@ var houseSourceInfo={
 				$('.float_bottom').show();
 			}
 		},'json');
+	},
+	showLookHouseBtn:function(lookHouse,type){
+		var _f = lookHouse&&("rent"==type);
+		if(_f){
+			$('.markBox').css({"height":"1.2rem"});
+			$('.text_yykf').show();
+			//$('#entTime').html(ext.getTime());
+			$('#button').bind("click",function(){
+				var _n = $("#entName").val(),_p = $("#entPhone").val(),_t = $("#entTime").html();
+				if(!_n)
+					return houseSourceInfo.showMsg($('#entName'),"请填写姓名");
+				if(!_p) 
+					return houseSourceInfo.showMsg($('#entPhone'),"请填写手机号码");
+				if(!ext.isPoneAvailable(_p)) 
+					return houseSourceInfo.showMsg($('#entPhone'),"手机号码有误");
+				if(!_t) 
+					return houseSourceInfo.showMsg($('#entTime'),"请选择预约时间");
+				if(!ext.isBefore(_t)) 
+					return houseSourceInfo.showMsg($('#entTime'),"预约时间应大于当前时间");
+				if(!ext.inWeek(_t)) 
+					return houseSourceInfo.showMsg($('#entTime'),"只能选择未来一周的时间");
+				$.post(ext.path+"lookHouse/addLookHouse.do",{name:_n,phone:_p,time:_t,openid:ext.openid,houseid:houseSourceInfo.houseid,storeId:ext.storeId},function(data){
+					if(data.success){
+						$('.mui-active').remove();
+						$('.popTipBoxL2').hide();
+						houseSourceInfo.showMsg(null,"提交成功");
+					}else{
+						houseSourceInfo.showMsg(null,data.msg);
+					}
+				},'json');
+			});
+			$('#entName,#entPhone,#entTime').keyup(function(){
+				$(this).css({"border-color":"#ddd"});
+			});
+			$('#entName,#entPhone').focus(function(){
+				$('.mui-active').remove();
+			});
+		}else{
+			$('.text_yykf').hide();
+		}
+	},
+	showLookHouse:function(){
+		$('.text_yykf').click(function(){
+			$('.popTipBoxL2').show();
+		});
+		$('.tc_next').click(function(){
+			$('.mui-active').remove();
+			$('.popTipBoxL2').hide();
+		});
+		mui.init();
+		mui('#entTime')[0].addEventListener("tap",function(e){
+			var _o = this;
+			setTimeout(function(){
+				if($('.mui-active').length>0)
+					return;
+				var optionsJson = _o.getAttribute('data-options') || '{}';
+				var options = JSON.parse(optionsJson);
+				var id = _o.getAttribute('id');
+				var picker = new mui.DtPicker(options);
+				picker.show(function(rs) {
+					$('#entTime').html(rs.text);
+					picker.dispose();
+				},false);
+			},300);
+		});
+	},
+	showMsg:function(a,b){
+		var _w = (b.length+2)*17.6;
+		var _l = ($(window).width()-_w)/2;
+		a&&(function(){a.addClass("error").focus();a.css({"border-color":"red"});}());
+		$('.popTip90').html(b).css({"width":_w,"left":_l});
+		$('.popTipBox1').show().fadeOut(1500);
 	},
 	upOtherNotes:function(obj,type){
 		$(obj).removeClass("editBjBtn").addClass("sure2Btn");
@@ -381,6 +455,7 @@ var houseSourceInfo={
 		this.openid = ext.openid;
 		this.getHouseSourceInfo();
 		this.collect();
+		this.showLookHouse();
 		$(window).scroll(function(){
 			var t=$("#baiduMap").offset().top;    
 		    if (t >= $(window).scrollTop() && t < ($(window).scrollTop()+$(window).height())) {      

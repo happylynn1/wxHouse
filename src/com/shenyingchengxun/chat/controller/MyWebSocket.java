@@ -20,6 +20,7 @@ import javax.websocket.server.ServerEndpoint;
 
 import net.sf.json.JSONObject;
 
+import com.shenyingchengxun.action.util.Config;
 import com.shenyingchengxun.chat.util.JdbcUtils;
 import com.shenyingchengxun.house.util.WxPostUtil;
 
@@ -101,7 +102,7 @@ public class MyWebSocket {
 					String accessToken = storeMap.get("accessToken");
 					if(accessToken!=null){
 						String name = getName(isAgent(this.openid),this.openid);
-						String url="http://wxmp.jjr580.com/wxHouse/page/toChat.do?storeId="+storeId+"&openid="+this.toOpenid+"&toOpenid="+this.openid;
+						String url = Config.Base+"page/toChat.do?storeId="+storeId+"&openid="+this.toOpenid+"&toOpenid="+this.openid;
 						JSONObject json = WxPostUtil.creatNewMsgTemplate(storeId, title, name,content, this.toOpenid, url);
 						String code = WxPostUtil.sendTemplate(accessToken,json);	
 						System.out.println("-----------------------------"+(code.equals("0")?"发送成功":"发送失败")+":"+code+"----------------------------------");
@@ -287,7 +288,7 @@ public class MyWebSocket {
 			close(stmt, conn);
 		}
 		System.out.println("---------------------------------"+(num==0)+"-------------------------------------");*/
-		return 0==0;
+		return true;
 	}
 	public void addMsgSend(String openid,String toOpenid){
 		System.out.println("-------------------------------------插入数据到wx_msg_send-------------------------------------------------");

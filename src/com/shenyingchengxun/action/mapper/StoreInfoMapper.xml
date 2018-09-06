@@ -3,7 +3,7 @@
 <mapper namespace="com.shenyingchengxun.action.dao.StoreInfoDao">
 	<select id="getStoreInfoByStoreId" parameterType="String" resultType="com.shenyingchengxun.action.bean.StoreInfo">
 		select storeid storeId,city,company,store_name storeName,
-		introdu,image_path imagePath,appId,appSecret,accessToken,atReg_time,token 
+		introdu,image_path imagePath,appId,appSecret,accessToken,atReg_time,token,lookHouse 
 		from wx_storeinfo where storeid = #{storeId}  limit 1
 	</select>
 	<update id="upStoreAtByStoreId" parameterType="String">

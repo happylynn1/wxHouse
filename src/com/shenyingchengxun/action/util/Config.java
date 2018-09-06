@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
 
 import org.slf4j.Logger;
