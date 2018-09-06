@@ -17,16 +17,10 @@ var myHouse = {
 				num = data.length;
 				if(num>0){
 					$.each(data,function(i,o){
-						if(o.hs.trading_type=="sale"){
-							str = houseUtil.showSaleLeftSlide(str,o);
-						}else{
-							str = houseUtil.showRentLeftSlide(str,o);
-						}
+						str = o.hs.trading_type=="sale"?houseUtil.showSaleLeftSlide(str,o):houseUtil.showRentLeftSlide(str,o);
 					});
 					$('.noData').hide();
-					if(num==limit){
-						str+="<li class='waiting'><span style='width:73%;'>加载中...</span></li>";
-					}
+					num==limit&&(str+="<li class='waiting'><span style='width:73%;'>加载中...</span></li>");
 					$('.rentalHouseList').html(str);
 					houseUtil.leftSlide(".rentalHouseList");
 					$('.upPic').click(function(){
@@ -36,11 +30,7 @@ var myHouse = {
 					$('.del').click(function(){
 						var obj= this; 
 						$.post(ext.path+"house/getDelPermission.do",{openid:myHouse.vars.openid},function(data){
-							if(data == 'y'){
-								myHouse.showDel(obj);
-							} else {
-								myHouse.showErr("您没有删除权限，请联系管理员.");
-							}
+							data == 'y'?myHouse.showDel(obj):myHouse.showErr("您没有删除权限，请联系管理员.");
 						});
 					});
 					$('.update').click(function(){
@@ -48,9 +38,7 @@ var myHouse = {
 						location.href= ext.path+"page/upMyHouseById.do?houseid="+houseid+"&storeId="+ext.storeId+"&openid="+ext.openid;
 					});
 				}else{
-					if(page==0){
-						$('.noData').show();
-					}
+					page==0&&($('.noData').show());
 				}
 			},'json');
 			return num;
@@ -68,20 +56,9 @@ var myHouse = {
 			$('.cancel').unbind().bind("click",function(){myHouse.hideDel();});
 			$('.confirm').unbind().bind("click",function(){
 				var id = $(obj).parents("li").attr("id");
-				console.log(obj);
-				console.log($(obj));
-				console.log(id);
 				$.post(ext.path+"house/delMyHouseById.do",{houseid:id},function(data){
-					console.log(data);
-					if(data){
-						$(obj).parents("li").remove();
-						if($('.rentalHouseList li').length==0){
-							$('.noData').show();
-						}
-						myHouse.showToast("操作成功");
-					}else{
-						myHouse.showToast("操作失败");
-					}
+					data?($(obj).parents("li").remove(),($('.rentalHouseList li').length==0)&&($('.noData').show()),myHouse.showToast("操作成功"))
+					:myHouse.showToast("操作失败");
 				});
 			});
 		},

@@ -26,8 +26,10 @@
 	<script type="text/javascript" src="${path}res/js/ext.js?v=${ver}"></script>
 	<script type="text/javascript" src="${path}res/js/zoomify.min.js?v=${ver}"></script>
 	<script type="text/javascript" src="${path}res/js/houseSourceInfo.js?v=${ver}"></script>
+	<link rel="stylesheet" href="${path}res/css/FJL.picker.css" type="text/css"></link>
 	<style>
 	.BMap_noprint.anchorTR,.anchorBL{display:none;}
+	.error::-webkit-input-placeholder{color:red;}
 	</style>
 </head>
 <body>
@@ -47,8 +49,8 @@
 	<div class="houseTil">
 		<div class="houseTilCon">
          <h5 class="houseH5"></h5>
-         <div class="markBox clear">
-         </div>
+         <div class="markBox clear"></div>
+         <div class="text_yykf entrust">预约看房</div>
          </div>
     </div>
     <ul class="keyBox">
@@ -176,12 +178,34 @@
         </div>
 	</div>
 </section>
+<div class="popTipBoxL2" style="display: none;">
+	<!--预约看房-->
+	<div class="popTipConL2">
+	     <div class="yykf_tic">
+			<span class="tc_next"><img src="${path}/res/images/yy_gb.png"></span>
+			<h1>预约看房</h1>
+			<ul>
+				<li><input id="entName" type="text" class="next_input" placeholder="请输入您的姓名"/></li>
+				<li><input id="entPhone" type="number" class="next_input" placeholder="请输入手机号码"/></li>
+				<li><button id="entTime" data-options="{&quot;type&quot;:&quot;datetime&quot;}" class="btn mui-btn mui-btn-block">请选择预约时间</button></li>
+			</ul>
+			<p><input type="submit" name="button" id="button" value="提交约看"></p>
+	     </div>
+	</div>
+</div>
+<!--弹出框-over-->
+<div class="popTipBox1" style="display:none;">
+	 <div class="popTip90"></div>
+</div>
+<script type="text/javascript" src="${path}res/js/FJL.min.js"></script>
+<script type="text/javascript" src="${path}res/js/FJL.picker.min.js"></script>
 </body>
 <script>
 	$(function(){
 		ext.setvars("${path}","${storeId}", "${openid}");
 		houseSourceInfo.houseid="${houseid}";
 		houseSourceInfo.city="${store.city}";
+		houseSourceInfo.lookHouse="${store.lookHouse}";
 		houseSourceInfo.init();
 	});
 </script>

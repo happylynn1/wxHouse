@@ -50,8 +50,8 @@ var chat={
 		},
 		creatWs:function(){
 			if ('WebSocket' in window) {
-				var wsPath = ext.path.replace("http://","ws://")+"chat/";
-				//var wsPath = "ws://123.59.105.113:10240/wxHouse/chat/";
+				//var wsPath = ext.path.replace("http://","ws://")+"chat/";
+				var wsPath = "ws://123.59.105.113:10240/wxHouse/chat/";
 				wsPath += this.vars.openid+"/"+this.vars.toOpenid;
 				this.websocket = new WebSocket(wsPath);
 				//连接成功建立的回调方法

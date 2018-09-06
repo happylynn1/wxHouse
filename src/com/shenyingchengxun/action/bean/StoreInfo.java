@@ -17,6 +17,7 @@ public class StoreInfo {
 	public String accessToken;
 	public long atReg_time;
 	public String token;
+	public String lookHouse;
 	
 	public String getStoreId() {
 		return storeId;
@@ -84,6 +85,12 @@ public class StoreInfo {
 	public void setToken(String token) {
 		this.token = token;
 	}
+	public String getLookHouse() {
+		return lookHouse;
+	}
+	public void setLookHouse(String lookHouse) {
+		this.lookHouse = lookHouse;
+	}
 	public StoreInfo(String storeId, String city, String company,
 			String storeName, String introdu, String imagePath, String appId,
 			String appSecret, String accessToken, long atReg_time, String token) {
@@ -110,6 +117,6 @@ public class StoreInfo {
 				+ ", introdu=" + introdu + ", imagePath=" + imagePath
 				+ ", appId=" + appId + ", appSecret=" + appSecret
 				+ ", accessToken=" + accessToken + ", atReg_time=" + atReg_time
-				+ ", token=" + token + "]";
+				+ ", token=" + token + ", lookHouse=" + lookHouse + "]";
 	}
 }

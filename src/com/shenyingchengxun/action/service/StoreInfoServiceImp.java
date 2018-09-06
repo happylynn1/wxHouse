@@ -2,15 +2,12 @@ package com.shenyingchengxun.action.service;
 
 import java.util.Date;
 
-import net.sf.json.JSONObject;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.shenyingchengxun.action.bean.StoreInfo;
 import com.shenyingchengxun.action.dao.StoreInfoDao;
 import com.shenyingchengxun.action.util.Config;
-import com.shenyingchengxun.util.HttpUtil;
 
 @Service("StoreInfoServiceImp")
 public class StoreInfoServiceImp implements StoreInfoService{
