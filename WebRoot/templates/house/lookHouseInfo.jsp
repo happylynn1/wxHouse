@@ -23,15 +23,18 @@
 <body>
 <section>
 	<div class="reservation">
-		<h1>您好，您的看房预约被取消了！</h1>
+		<h1 id="title"></h1>
 		<ul>
-			<li id='houseInfo'>预约房源：<a id='houseInfo' href="javascript:;">魏公村小区 3室1厅1卫</a></li>
-			<li id='time'>预约时间：2018-09-05 14:00</li>
-			<li id='reason'>预约取消原因：该房源临时不租了</li>
+			<li id='houseInfo'></li>
+			<li id='time'></li>
+			<li id='reason'></li>
 		</ul>
 		<p>您可以拨打对方电话了解详情</p>
 		<div class="animate-bounce-up"></div>
-		<span class="reservation_span"><a id="phone"><input type="button" name="button" value="拨打电话" class="rest_input" /></a></span>
+		<span class="reservation_span">
+			<a id="phone" class="rest_input">拨打电话
+			</a>
+		</span>
 	</div>
 </section>
 <script type="text/javascript">

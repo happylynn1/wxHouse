@@ -46,7 +46,10 @@
 				<li><textarea rows="4" cols="50" name="introduce" id="introduce" onKeyDown="lookHouseList.getNum(this);" onKeyUp="lookHouseList.getNum(this);" placeholder="请输入取消预约的原因，20字以内" class="txtLc_text2"></textarea> 
 				<p><span id="num">0</span>/20</p></li>
 			</ul>
-			<p><input type="submit" name="button" id="button_xx" value="我再想想" /> <input type="submit" name="button" id="button_qd" value="确定" /></p>
+			<p>
+				<a class="button_xx" id="button_xx">我再想想</a> 
+				<a class="button_qd" id="button_qd">确定</a>
+			</p>
 	     </div>
 	</div>
 </div>
@@ -57,7 +60,7 @@
 </div>
 <div class="my-alert" style="display:none;">
 	<div class="alert">
-		<div class="content">确认要删除该房源？</div>
+		<div class="content">确认删除该条预约记录？</div>
 		<div class="fd-btn">
 			<a href="javascript:;" class="cancel">取消</a>
 			<a href="javascript:;" class="confirm">删除</a>

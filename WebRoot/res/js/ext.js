@@ -343,7 +343,7 @@ var lookHouseUtil = {
 			var ch = ext.isBefore(ext.timeFormat2(o.time)+":00");
 			var yyvisorIntr = ch?"yyvisorIntr":"yyvisorIntr2";
 			var deal = ch?"<span class='cancel'>取消<br/>预约</span>":"<span id='"+o.id+"' class='del'>删除</span>";
-			s +="<li onclick=\"houseUtil.showInfo('"+o.houseid+"')\" id='"+o.id+"'><div class='items'><div class='"+yyvisorIntr+"'><p class='wzP'>" +
+			s +="<li id='"+o.id+"'><div class='items'><div onclick=\"houseUtil.showInfo('"+o.houseid+"')\" class='"+yyvisorIntr+"'><p class='wzP'>" +
 				"<b>"+o.comm+"</b><span>"+o.total+"元/月</span></p><p class='clearfix'>"+
 				"<a class='yy_sh'>预约时间：" +ext.timeFormat2(o.time)+	"</a><span>" +
 				"<a onclick='persionUtil.contact(this)' data-openid='"+ o.openid +"' class='chatBtn2 fleft'><em>微聊</em></a>";

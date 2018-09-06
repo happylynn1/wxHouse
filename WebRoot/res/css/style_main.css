@@ -812,6 +812,7 @@ span.DlgrayFont{
 .yykf_tic ul li{
 	margin-bottom:.6rem;
 }
+#entTime{color:#a9a9a9;}
 .next_input{
  	width: 100%;
     border-radius: .25rem;
@@ -853,7 +854,7 @@ span.DlgrayFont{
 	border:1px solid #ff4e00;
 	color: #fff;
 }
-.yykf_tic p>input{
+.yykf_tic .button_tic{
 	background: #ff4e00;
 	color: #fff;
 	text-align: center;
@@ -1060,20 +1061,22 @@ span.DlgrayFont{
 	margin-bottom:1rem;
 	font-weight: bold;
 }
-.yykf_tic3 p input{
+.yykf_tic3 p a{
+	display:inline-block;
 	width: 4rem;
-	height:1.5rem;
-	line-height: 1.5rem;
+	height:2rem;
+	line-height: 2rem;
 	color: #fff;
 	border:none;
+	cursor:pointer;
 	border-radius: 5px;
-	font-size: .75rem;
+	font-size: .875rem;
 	margin:0 .7rem;
 }
-#button_xx{
+.button_xx{
 	background:#bfbfbf;
 }
-#button_qd{
+.button_qd{
 	background: #fb7330;
 }
 .yykf_tic3 ul{
