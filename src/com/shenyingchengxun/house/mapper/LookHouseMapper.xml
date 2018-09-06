@@ -9,6 +9,7 @@
 		select id,storeId,openid,houseid,name,phone,time,addTime,deal,dealBy,reason,delByClient,delByAgent from  wx_lookHouse where id = #{id}
 	</select>
 	<select id="getLookHouseListByClient" resultType="map">
+		select wc.comm,wl.time,wl.id,wh.total,wh.agent_openid openid,wa.phone,wh.houseid from wx_lookHouse wl 
 			LEFT JOIN wx_housesource wh on wl.houseid = wh.houseid 
 			LEFT JOIN wx_comm wc on wh.commid = wc.id 
 			LEFT JOIN wx_agentinfo wa on wh.agent_openid = wa.agent_openid
@@ -17,6 +18,7 @@
 			limit #{_st},#{_ed}
 	</select>
 	<select id="getLookHouseListByAgent" resultType="map">
+		select wc.comm,wl.time,wl.id,wh.total,wl.openid,wl.phone,wh.houseid from wx_lookHouse wl 
 			LEFT JOIN wx_housesource wh on wl.houseid = wh.houseid 
 			LEFT JOIN wx_comm wc on wh.commid = wc.id
 			where wl.houseid in (select houseid from wx_housesource where agent_openid = #{openid})
