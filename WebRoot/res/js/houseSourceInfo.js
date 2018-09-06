@@ -165,11 +165,10 @@ var houseSourceInfo={
 		},'json');
 	},
 	showLookHouseBtn:function(lookHouse,type){
-		var _f = lookHouse&&("rent"==type);
+		var _f = parseInt(lookHouse)&&("rent"==type);
 		if(_f){
 			$('.markBox').css({"height":"1.2rem"});
 			$('.text_yykf').show();
-			//$('#entTime').html(ext.getTime());
 			$('#button').bind("click",function(){
 				var _n = $("#entName").val(),_p = $("#entPhone").val(),_t = $("#entTime").html();
 				if(!_n)

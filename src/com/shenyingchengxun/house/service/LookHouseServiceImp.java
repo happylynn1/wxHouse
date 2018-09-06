@@ -136,8 +136,10 @@ public class LookHouseServiceImp implements LookHouseService{
 		if(openid.equals(lh.getOpenid())){
 			Agent agent = agentDao.getAgentByOpenid(hs.getOpenid());
 			result.put("phone", agent.getPhone());
+			result.put("isAgent", "0");
 		}else{
 			result.put("phone", lh.getPhone());
+			result.put("isAgent", "1");
 		}
 		return result;
 	}

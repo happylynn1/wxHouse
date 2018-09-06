@@ -187,9 +187,9 @@
 			<ul>
 				<li><input id="entName" type="text" class="next_input" placeholder="请输入您的姓名"/></li>
 				<li><input id="entPhone" type="number" class="next_input" placeholder="请输入手机号码"/></li>
-				<li><button id="entTime" data-options="{&quot;type&quot;:&quot;datetime&quot;}" class="btn mui-btn mui-btn-block">请选择预约时间</button></li>
+				<li><div id="entTime" data-options="{&quot;type&quot;:&quot;datetime&quot;}" class="btn mui-btn mui-btn-block">请选择预约时间</div></li>
 			</ul>
-			<p><input type="submit" name="button" id="button" value="提交约看"></p>
+			<p id="button" class="button_tic">提交约看</p>
 	     </div>
 	</div>
 </div>
