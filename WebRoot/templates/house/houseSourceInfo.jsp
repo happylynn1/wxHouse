@@ -207,6 +207,9 @@
 		houseSourceInfo.city="${store.city}";
 		houseSourceInfo.lookHouse="${store.lookHouse}";
 		houseSourceInfo.init();
+		$(document).click(function(e){
+			(!$(e.target).is("input"))&&($('input').blur());
+		});
 	});
 </script>
 </html>
