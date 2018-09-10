@@ -50,7 +50,7 @@
 		<div class="houseTilCon">
          <h5 class="houseH5"></h5>
          <div class="markBox clear"></div>
-         <div class="text_yykf entrust">预约看房</div>
+         <div class="text_yykf entrust" style='display:none;'>预约看房</div>
          </div>
     </div>
     <ul class="keyBox">
